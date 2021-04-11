@@ -8,7 +8,7 @@ class Unit(object):
     Unit represents each unit of the genetic algorithm.
     Properties:-
     1. values: The weights and biases.
-    2. bird: The bird object representating each unit.
+    2. bird: The bird object representing each unit.
     3. index: The index of the unit in current generation.
     4. fitness: The fitness score of the unit.
     5. is_winner: Boolean value depicting whether the unit is one of the top units.
@@ -173,8 +173,7 @@ class Genetic(object):
     def evolve(self, x, y):
         """
         This is the most important function as it deals with the evolution of the units.
-        All the top units are retained for the next generation. (40%)
-        Some of units are selected at random (may be top unit or not) to be retained. (20%)
+        All the top units are retained for the next generation.
         One of the offsprings has the two best units as parents.
         The rest have random top unit parents.
         :return:
@@ -184,20 +183,17 @@ class Genetic(object):
             self.best_population = self.generation
             self.best_fitness = winners[0].fitness
 
-        self.mutation_rate = 0.2
+        self.mutation_rate = 0.1
         for index in range(self.top_units, self.max_units):
             if index == self.top_units:
                 parent_a = winners[0].values
                 parent_b = winners[1].values
                 offspring = self.crossover(parent_a, parent_b)
                 offspring = self.mutation(offspring)
-            elif index < int(0.8 * self.max_units):
+            else:
                 parent_a = choice(winners).values
                 parent_b = choice(winners).values
                 offspring = self.crossover(parent_a, parent_b)
-                offspring = self.mutation(offspring)
-            else:
-                offspring = choice(winners).values
                 offspring = self.mutation(offspring)
 
             unit = Unit(offspring, Bird(x, y), index)
@@ -450,7 +446,7 @@ if __name__ == '__main__':
     pygame.init()
     pygame.display.set_caption("Flappy Bird")
 
-    genetics = Genetic(100, 40)
+    genetics = Genetic(200, 20)
     flappy_bird = FlappyBird()
 
     genetics.create_population(25, flappy_bird.screen_width // 3, flappy_bird.screen_height // 2)
@@ -458,7 +454,7 @@ if __name__ == '__main__':
 
     genetics.generation = 1
 
-    while genetics.generation < 100:
+    while genetics.generation < 200:
         print(genetics.generation)
         genetics.evolve(flappy_bird.screen_width // 3, flappy_bird.screen_height // 2)
         for pop in genetics.population:
