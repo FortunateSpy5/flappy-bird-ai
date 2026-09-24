@@ -1,0 +1,5 @@
+# Game & Simulation Engine
+pygame>=2.0.0
+
+# Mathematical Computing & Vector Operations
+numpy>=1.19.0
